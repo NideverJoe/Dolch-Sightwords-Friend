@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>SightWords Friend</title>
-    <!-- Required meta tags -->
+  <title>SightWords Friend</title>
+  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -13,34 +13,43 @@
 </head>
 
 <body>
-<div class="row">
-  <div class="col-md-4 card bg-warning text-white text-center">
-      <h5><a href="/PreK.html">Pre-School</a> | <a href="/Kinder.html">Kindergarten</a></h5>
-      <h5><a href="/1st.html">1st Grade</a> | <a href="/2nd.html">2nd Grade</a></h5>
-      <h5><a href="/3rd.html">3rd Grade</a></h5>
+  <div class="row">
+    <div class="col-md-4 card bg-warning text-white text-center">
+      <h5><a href="PreK.html">Pre-School</a> | <a href="Kinder.html">Kindergarten</a></h5>
+      <h5><a href="1st.html">1st Grade</a> | <a href="2nd.html">2nd Grade</a></h5>
+      <h5><a href="3rd.html">3rd Grade</a></h5>
+    </div>
+    <div class="card col-md-4 bg-success text-center text-white">
+      <h1>SightWords Friend</h1>
+      <h3>Kindergarten</h3>
+    </div>
+    <div class="col-md-4 card bg-warning text-white text-center">
+      <h5>Created by: <a href="https://www.linkedin.com/in/jnid/">Joe Nidever</a></h5>
+      <h5>Powered by: <a href="https://www.talater.com/annyang/">Annyang!</a></h5>
+      <h5>Sight Word Lists: <a href="https://sightwords.com/sight-words/dolch/#lists">Dolch</a></h5>
+    </div>
   </div>
-  <div class="card col-md-4 bg-success text-center text-white">
-    <h1>Sight-Words</h1>
-    <h3>Kindergarten</h3>
-  </div>
-  <div class="col-md-4 card bg-warning text-white text-center">
-      <h5><a href="/PreK.html">Pre-School</a> | <a href="/Kinder.html">Kindergarten</a></h5>
-      <h5><a href="/1st.html">1st Grade</a> | <a href="/2nd.html">2nd Grade</a></h5>
-      <h5><a href="/3rd.html">3rd Grade</a></h5>
-  </div> 
- </div>
 
   <div class="row my-2 text-center text-white">
     <div class="card bg-primary col-md-12">
       <h3>Say this word:</h3>
-      <h2 class="mb-3"style="font-size: 1000%"id="wordplace"></h2>
+      <h2 class="mb-3" style="font-size: 1000%" id="wordplace"></h2>
+      <button id="skip" style="font-size: 200%" class="mt-2 btn-lg bg-danger text-white">Skip Word</button>
+
     </div>
+
   </div>
   <div class="row my-2 text-center text-white">
-      <h3 class="card bg-secondary col-md-12">Track your wins here:
-        <span id="wins"></span>
-      </h3>
-    </div>
+    <h3 class="card bg-secondary col-md-12">Track your wins here:
+      <span style="font-size:300%" id="winsnum">0</span>
+      <span id="wins"></span>
+    </h3>
+  </div>
+  <div class="row my-2 text-center text-white">
+    <h4 class="card bg-dark col-md-12">Words I need help with...
+      <span id="skipped"><img style="width:3%" src=./skip.png> - </span>
+    </h4>
+  </div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -52,9 +61,10 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
   <script src="./annyang.js"></script>
-  
+
   <script>
-        var winsound = new Audio("./win.mp3");
+    var winsound = new Audio("./win.mp3");
+    skippedarr = []
 
 
     preprimerarr = ["the", "to", "and", "a", "I", "you", "it", "in", "said", "for", "up", "look", "is", "go", "we", "little", "down", "can", "see", "not", "one", "my", "me", "big", "come", "blue", "red", "where", "jump", "away", "here", "help", "make", "yellow", "two", "play", "run", "find", "three", "funny"];
@@ -64,7 +74,9 @@
     thirdarr = ["about", "better", "bring", "carry", "clean", "cut", "done", "draw", "drink", "eight", "fall", "far", "full", "got", "grow", "hold", "hot", "hurt", "if", "keep", "kind", "laugh", "light", "long", "much", "myself", "never", "only", "own", "pick", "seven", "shall", "show", "six", "small", "start", "ten", "today", "together", "try", "warm"];
 
     var chosenword;
+    var winsnum=0
 
+    //select random word and assign it to the global var chosenword
     function selectword() {
       chosenword = primerarr[Math.floor(Math.random() * primerarr.length)];
       console.log(chosenword);
@@ -73,33 +85,35 @@
       });
       var commands = {}
       commands[chosenword] = function () {
-            addwin()
-            winsound.play()
-            selectword()
-        }
-
-      
+        winsnum++
+        addwin()
+        winsound.play()
+        selectword()
+      }
       console.log(commands)
       startAnnyang(commands);
     }
 
-function addwin (){
-  $( "#wins" ).append(`<img src="./win.png" class="mx-1 my-1"style="width:10%"></img>`);
+    function addwin() {
+      $("#wins").append(`<span style="font-size: 200%">${chosenword}</span><img src="./win.png" class="mx-1 my-1"style="width:5%"></img>`);
+      $("#winsnum").html(`<span style="width:200%">${winsnum}</span>`)
+    }
 
+    $("#skip").click(skipword)
 
-}
+    function skipword() {
+        $("#skipped").append(`<span style="font-size: 125%">${chosenword} - </span>`);
+        skippedarr.push(chosenword)
+        selectword()
+    }
 
-function startAnnyang(commands){
+    function startAnnyang(commands) {
       annyang.addCommands(commands);
 
       // Start listening. You can call this here, or attach this call to an event, button, etc.
       annyang.start();
       annyang.isListening()
-
     }
-
-
-
     selectword();
 
 

@@ -1,4 +1,4 @@
-var winsound = new Audio("../win.mp3");
+var winsound = new Audio("../audio/win.mp3");
 skippedarr = []
 
 
